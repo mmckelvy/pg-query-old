@@ -1,0 +1,15 @@
+{
+  "name": "pg-query",
+  "version": "1.0.0",
+  "description": "Write queries in .sql files and include them in your Node app.",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "ava": "^1.4.1"
+  },
+  "scripts": {
+    "test": "test && ava"
+  },
+  "author": "Mark McKelvy",
+  "license": "MIT"
+}
