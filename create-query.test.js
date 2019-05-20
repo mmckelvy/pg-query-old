@@ -4,9 +4,17 @@ const path = require('path');
 const createQuery = require('./create-query');
 
 test('createQuery - Should output the proper text string', t => {
-  const file = path.join(__dirname, './test-1.sql');
+  const text = `select first_name, last_name, email from user_account where email = :email and first_name = :firstName`;
+  const values = {email: 'foo@bar.com', firstName: 'Foo'};
+
   const actual = createQuery(file);
-  const expected = `select first_name, last_name, email from user_account where email = $1`
+  const expected = {
+    text: `select first_name, last_name, email from user_account where email = $1`,
+    values: ['foo@bar.com', 'Foo']
+  };
+
+  t.deepEqual(actual, expected);
+
 
   // Want to be able to pass params
   /*
@@ -14,6 +22,12 @@ test('createQuery - Should output the proper text string', t => {
   getUsers({
     email: 'joe@blow.com'
   })
+
+  output should be:
+
+  the q object with text and values keys.
   */
+
+
 
 });
