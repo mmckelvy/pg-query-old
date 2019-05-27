@@ -7,17 +7,32 @@ or, better yet, prefixed with a colon?
 
 So, we or :foo
 
+We'll have params that look like this:
+
+text: `select * from foo where email = :email`,
+values: {email: 'foo@bar.com'}
+
+- Set up a way to get feedback.
+- Solve the simplest version of the problem possible.
+- Break the problem into simpler, smaller pieces.
+- Find something like the hard parts of the problem but is easy.
+
 */
 /**
 @param {string} queryString - An SQL query string.
 */
 module.exports = function createQuery({ text, values }) {
-  // order matters, so need to put the params in a certain order.
+  const regEx = /(^|\s)(:\w+)/;
   const params = Object.keys(values);
 
-  // Loop over the keys, and find them in the variables...
-  // Assign each key a number.
-  // That number is what will be substituted in the string.
-  // Have to search the whole string?
+  return params.reduce((acc, param, index) => {
+    acc.text = acc.text.replace(regEx, (match, p1, p2) => {
+      return `${p1}$${index + 1}`;
+    });
 
+    acc.values.push(values[param]);
+
+    return acc;
+
+  }, {text, values: []});
 }
